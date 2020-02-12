@@ -10,8 +10,14 @@ public class vb_anim3 : MonoBehaviour, IVirtualButtonEventHandler
 
     public void OnButtonPressed(VirtualButtonBehaviour vb)
     {
-        Debug.Log("BTN PRESSED");
-        label_result.text = "C'est FAUX!";
+        if (ScoreClass.question.Choices[2].IsRightChoice)
+        {
+            label_result.text = "C'est correct! \n Indice:";
+        }
+        else
+        {
+            label_result.text = "C'est FAUX!";
+        }
     }
 
     public void OnButtonReleased(VirtualButtonBehaviour vb)

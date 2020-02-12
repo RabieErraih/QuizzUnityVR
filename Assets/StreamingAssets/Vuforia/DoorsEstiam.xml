@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
   <Tracking>
+    <ImageTarget name="C" size="1.000000 2.046599" />
+    <ImageTarget name="B" size="1.000000 2.056447" />
+    <ImageTarget name="A" size="1.000000 1.777778" />
     <ImageTarget name="SalleV" size="1.000000 2.198276" />
-    <ImageTarget name="SalleI" size="1.000000 2.056447" />
-    <ImageTarget name="SalleH" size="1.000000 2.046599" />
-    <ImageTarget name="DoorC" size="1.000000 1.777778" />
     <ImageTarget name="DoorU" size="1.000000 1.474144" />
   </Tracking>
 </QCARConfig>
