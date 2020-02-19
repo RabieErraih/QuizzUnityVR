@@ -7,12 +7,15 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Threading.Tasks;
 using System;
+using System.Net.Http;
+using System.Text;
 
 public class vb_anim : MonoBehaviour, IVirtualButtonEventHandler
 {
     public GameObject vbBtnObj;
     public TextMesh label_result;
     private int[] BtnsArray;
+    private static readonly HttpClient client = new HttpClient();
 
     private async Task WaitSecondAsync(int seconde)
     {
@@ -45,7 +48,14 @@ public class vb_anim : MonoBehaviour, IVirtualButtonEventHandler
             }
             else
             {
-
+                string myJson = "{'Username': 'myusername','Score':"+ScoreClass.PlayerScore+"}";
+                using (var client = new HttpClient())
+                {
+                    var response = await client.PostAsync(
+                        "http://quizz-vr.api.rabieouledabdallah.fr/api/users/score",
+                         new StringContent(myJson, Encoding.UTF8, "application/json"));
+                    Debug.Log(response);
+                }
             }
         }
         else
@@ -66,7 +76,14 @@ public class vb_anim : MonoBehaviour, IVirtualButtonEventHandler
                 SceneManager.LoadScene("GameScene" + ScoreClass.question.Position);
             } else
             {
-
+                string myJson = "{'Username': 'myusername','Score':" + ScoreClass.PlayerScore + "}";
+                using (var client = new HttpClient())
+                {
+                    var response = await client.PostAsync(
+                        "http://quizz-vr.api.rabieouledabdallah.fr/api/users/score",
+                         new StringContent(myJson, Encoding.UTF8, "application/json"));
+                    Debug.Log(response);
+                }
             }
         }
     }
