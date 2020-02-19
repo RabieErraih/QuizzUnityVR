@@ -5,6 +5,7 @@ using Vuforia;
 using System.Net.Http;
 using Models;
 using UnityEngine.UI;
+using System;
 
 public class MyImageTargetTrackedEventHandler : MonoBehaviour,
                                             ITrackableEventHandler
@@ -32,11 +33,14 @@ public class MyImageTargetTrackedEventHandler : MonoBehaviour,
             newStatus == TrackableBehaviour.Status.EXTENDED_TRACKED)
         {
             // GET QUESTION
-            var responseString = client.GetStringAsync("http://a5e4dee1.eu.ngrok.io/api/questions/door/"+ mTrackableBehaviour.TrackableName).Result;
+            string doorCode = mTrackableBehaviour.TrackableName.Split(new string[] { "Salle" }, StringSplitOptions.None)[1];
+            var responseString = client.GetStringAsync("http://quizz-vr.api.rabieouledabdallah.fr/api/questions/door/" + doorCode).Result;
             ScoreClass.question = Question.FromJson(responseString);
-            GameObject.Find("Answer1Btn").GetComponentInChildren<TextMesh>().text = ScoreClass.question.Choices[0].Content;
-            GameObject.Find("Answer2Btn").GetComponentInChildren<TextMesh>().text = ScoreClass.question.Choices[1].Content;
-            GameObject.Find("Answer3Btn").GetComponentInChildren<TextMesh>().text = ScoreClass.question.Choices[2].Content;
+            for (int i = 0; i<=2; i++)
+            {
+                GameObject.Find("AnswerBtn"+(i+1)).GetComponentInChildren<TextMesh>().text = ScoreClass.question.Choices[i].Content;
+            }
+            GameObject.Find("Question Label").GetComponent<TextMesh>().text = ScoreClass.question.Content;
         }
         else
         {
