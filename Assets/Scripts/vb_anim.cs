@@ -1,21 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Vuforia;
-using Models;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Threading.Tasks;
 using System;
-using System.Net.Http;
-using System.Text;
+using Proyecto26;
 
 public class vb_anim : MonoBehaviour, IVirtualButtonEventHandler
 {
     public GameObject vbBtnObj;
     public TextMesh label_result;
     private int[] BtnsArray;
-    private static readonly HttpClient client = new HttpClient();
 
     private async Task WaitSecondAsync(int seconde)
     {
@@ -48,14 +43,14 @@ public class vb_anim : MonoBehaviour, IVirtualButtonEventHandler
             }
             else
             {
-                string myJson = "{'Username': 'myusername','Score':"+ScoreClass.PlayerScore+"}";
-                using (var client = new HttpClient())
+                RestClient.Post("https://quizz-vr.api.rabieouledabdallah.fr/api/users/score", new ScoreApi
                 {
-                    var response = await client.PostAsync(
-                        "http://quizz-vr.api.rabieouledabdallah.fr/api/users/score",
-                         new StringContent(myJson, Encoding.UTF8, "application/json"));
-                    Debug.Log(response);
-                }
+                    username = "myusername",
+                    score = ScoreClass.PlayerScore
+                }).Then(response => {
+                    Debug.Log(response.StatusCode);
+                    Debug.Log(response.Data);
+                });
             }
         }
         else
@@ -76,14 +71,13 @@ public class vb_anim : MonoBehaviour, IVirtualButtonEventHandler
                 SceneManager.LoadScene("GameScene" + ScoreClass.question.Position);
             } else
             {
-                string myJson = "{'Username': 'myusername','Score':" + ScoreClass.PlayerScore + "}";
-                using (var client = new HttpClient())
-                {
-                    var response = await client.PostAsync(
-                        "http://quizz-vr.api.rabieouledabdallah.fr/api/users/score",
-                         new StringContent(myJson, Encoding.UTF8, "application/json"));
-                    Debug.Log(response);
-                }
+                RestClient.Post("https://quizz-vr.api.rabieouledabdallah.fr/api/users/score", new ScoreApi{
+                    username = "myusername",
+                    score = ScoreClass.PlayerScore
+                }).Then(response => {
+                    Debug.Log(response.StatusCode);
+                    Debug.Log(response.Data);
+                });
             }
         }
     }
